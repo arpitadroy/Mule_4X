@@ -260,7 +260,7 @@ public abstract class FlowConstructRunner<R extends FlowConstructRunner> {
 
   private void doBuildEvent() {
     FlowConstruct flow = getFlowConstruct();
-    requestEvent = eventBuilder.build(muleContext, flow);
+    requestEvent = eventBuilder.build(flow);
   }
 
   protected FlowConstruct getFlowConstruct() {

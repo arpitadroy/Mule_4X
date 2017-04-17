@@ -77,6 +77,8 @@ public class GroovyScriptTransformerFunctionalTestCase extends MuleArtifactFunct
   }
 
   @Test
+  @org.junit.Ignore
+  // TODO(pablo.kraan): API - this tests uses message properties
   public void transformByAssigningHeader() throws Exception {
     Message response = flowRunner("transformByAssigningProperty").withPayload("hello").run().getMessage();
     assertNotNull(response);

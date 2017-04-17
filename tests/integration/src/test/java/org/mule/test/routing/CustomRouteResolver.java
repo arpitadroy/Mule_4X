@@ -20,6 +20,10 @@ import org.mule.runtime.core.routing.DynamicRouteResolver;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Ignore;
+
+@Ignore
+// TODO(pablo.kraan): API - this test uses internal message
 public class CustomRouteResolver implements DynamicRouteResolver {
 
   static List<Processor> routes = new ArrayList<>();

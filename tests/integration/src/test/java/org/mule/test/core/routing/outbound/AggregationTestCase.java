@@ -40,6 +40,7 @@ import org.junit.Test;
  */
 // TODO: MULE-9303
 @Ignore("MULE-9303 Review aggregator sorting using runFlow")
+// TODO(pablo.kraan): API - this test uses internal message
 public class AggregationTestCase extends AbstractIntegrationTestCase {
 
   private static final String PAYLOAD = "Long string that will be broken up into multiple messages";

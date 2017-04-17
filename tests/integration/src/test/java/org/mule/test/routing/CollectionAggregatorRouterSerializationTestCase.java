@@ -25,8 +25,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.SerializationUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
+// TODO(pablo.kraan): API - this test uses internal message
 public class CollectionAggregatorRouterSerializationTestCase extends AbstractIntegrationTestCase {
 
   @Override

@@ -21,8 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
+// TODO(pablo.kraan): API - this test uses internal message
 public class AggregationTimeoutTestCase extends AbstractIntegrationTestCase {
 
   private static final CountDownLatch blockExecution = new CountDownLatch(1);

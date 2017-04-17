@@ -36,12 +36,15 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.RandomStringUtils;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runners.Parameterized;
 
 @RunnerDelegateTo(Parameterized.class)
+@Ignore
+// TODO(pablo.kraan): API - this test uses internal message
 public class UntilSuccessfulTestCase extends AbstractIntegrationTestCase {
 
   @Rule

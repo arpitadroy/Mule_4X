@@ -15,16 +15,15 @@ import org.mule.runtime.api.metadata.MediaType;
 import org.mule.runtime.core.DefaultEventContext;
 import org.mule.runtime.core.api.Event;
 import org.mule.runtime.core.api.EventContext;
-import org.mule.runtime.core.api.MuleContext;
 import org.mule.runtime.core.api.connector.ReplyToHandler;
 import org.mule.runtime.core.api.construct.FlowConstruct;
 import org.mule.runtime.core.internal.message.InternalMessage;
-import org.mule.runtime.core.internal.message.InternalMessage.Builder;
 import org.mule.runtime.core.message.DefaultMultiPartPayload;
 import org.mule.runtime.core.message.GroupCorrelation;
 import org.mule.runtime.core.util.IOUtils;
 
 import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -269,15 +268,17 @@ public class TestEventBuilder {
   /**
    * Produces an event with the specified configuration.
    *
-   * @param muleContext the context of the mule application
    * @param flow        the recipient for the event to be built.
    * @return an event with the specified configuration.
    */
-  public Event build(MuleContext muleContext, FlowConstruct flow) {
-    final Builder messageBuilder;
+  public Event build(FlowConstruct flow) {
+    final Message.Builder messageBuilder;
 
-    messageBuilder = InternalMessage.builder().payload(payload).mediaType(mediaType).inboundProperties(inboundProperties)
-        .outboundProperties(outboundProperties).inboundAttachments(inboundAttachments);
+    // TODO(pablo.kraan): API - review which usages require access to internal message and move to compatibility if needed
+    messageBuilder = Message.builder().payload(payload).mediaType(mediaType);
+
+    setInboundProperties(messageBuilder, inboundProperties);
+    setOutboundProperties(messageBuilder, outboundProperties);
 
     if (attributes != null) {
       messageBuilder.attributes(attributes);
@@ -305,6 +306,25 @@ public class TestEventBuilder {
     return (Event) spyTransformer.transform(event);
   }
 
+  // TODO(pablo.kraan): API - add methods likie this one for outbound properties and inbound attachements
+  private void setInboundProperties(Message.Builder messageBuilder, Map<String, Serializable> inboundProperties) {
+    try {
+      Method inboundPropertiesMethod = messageBuilder.getClass().getMethod("inboundProperties", Map.class);
+      inboundPropertiesMethod.invoke(messageBuilder, inboundProperties);
+    } catch (Exception e) {
+      throw new IllegalStateException(e);
+    }
+  }
+
+  private void setOutboundProperties(Message.Builder messageBuilder, Map<String, Serializable> outboundProperties) {
+    try {
+      Method outboundPropertiesMethod = messageBuilder.getClass().getMethod("outboundProperties", Map.class);
+      outboundPropertiesMethod.invoke(messageBuilder, outboundProperties);
+    } catch (Exception e) {
+      throw new IllegalStateException(e);
+    }
+  }
+
   private interface Attachment {
 
     Event addOutboundTo(Event event, String key);
@@ -321,6 +341,7 @@ public class TestEventBuilder {
 
     @Override
     public Event addOutboundTo(Event event, String key) {
+      // TODO(pablo.kraan): API - review usages of internal message
       return Event.builder(event)
           .message(InternalMessage.builder(event.getMessage()).addOutboundAttachment(key, dataHandler).build()).build();
     }
@@ -340,6 +361,7 @@ public class TestEventBuilder {
     @Override
     public Event addOutboundTo(Event event, String key) {
       try {
+        // TODO(pablo.kraan): API - review usages of internal message
         return Event.builder(event).message(InternalMessage.builder(event.getMessage())
             .addOutboundAttachment(key, IOUtils.toDataHandler(key, object, contentType))
             .build()).build();

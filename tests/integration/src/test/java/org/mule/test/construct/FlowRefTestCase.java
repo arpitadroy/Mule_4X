@@ -18,9 +18,12 @@ import org.mule.test.AbstractIntegrationTestCase;
 
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
+@Ignore
+// TODO(pablo.kraan): API - this test uses internal message
 public class FlowRefTestCase extends AbstractIntegrationTestCase {
 
   @Rule

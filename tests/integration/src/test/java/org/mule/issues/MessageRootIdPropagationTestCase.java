@@ -26,6 +26,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 @Ignore("See MULE-9195")
+// TODO(pablo.kraan): API - this test uses internal message
 public class MessageRootIdPropagationTestCase extends AbstractIntegrationTestCase {
 
   @Rule

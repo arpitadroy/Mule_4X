@@ -11,6 +11,7 @@ import org.mule.runtime.core.internal.message.InternalMessage;
 import org.mule.runtime.core.exception.AbstractMessagingExceptionStrategy;
 import org.mule.runtime.core.exception.MessagingException;
 
+// TODO(pablo.kraan): API - is this class used?
 public class TestExceptionStrategy extends AbstractMessagingExceptionStrategy {
 
   public TestExceptionStrategy() {

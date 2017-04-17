@@ -89,6 +89,8 @@ public class OperationExecutionTestCase extends AbstractExtensionFunctionalTestC
   }
 
   @Test
+  @org.junit.Ignore
+  // TODO(pablo.kraan): API - Mockito cannot mock this class: class org.mule.runtime.core.internal.message.DefaultMessageBuilder$MessageImplementation
   public void operationWithReturnValueOnTarget() throws Exception {
     FlowRunner runner = flowRunner("sayMyNameOnTarget").withPayload(EMPTY_STRING);
     runner.spyObjects();

@@ -28,12 +28,15 @@ import org.mule.runtime.core.context.notification.ServerNotificationManager;
 import org.mule.runtime.core.object.SingletonObjectFactory;
 import org.mule.tck.junit4.AbstractMuleContextTestCase;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
  * Test ComponentNotifications/Listeners by sending events to a component. A pre and post notification should be received by
  * listeners.
  */
+@Ignore
+// TODO(pablo.kraan): API - this test uses internal message
 public class ComponentMessageNotificationNoXMLTestCase extends AbstractMuleContextTestCase {
 
   protected Flow flow;

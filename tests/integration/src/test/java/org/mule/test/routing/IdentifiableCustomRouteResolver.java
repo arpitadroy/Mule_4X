@@ -19,6 +19,7 @@ import org.mule.runtime.core.routing.IdentifiableDynamicRouteResolver;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO(pablo.kraan): API - check if this calass is used. It references internal message
 public class IdentifiableCustomRouteResolver implements IdentifiableDynamicRouteResolver, MuleContextAware {
 
   private final String ID_EXPRESSION = "#[mel:flowVars['id']]";

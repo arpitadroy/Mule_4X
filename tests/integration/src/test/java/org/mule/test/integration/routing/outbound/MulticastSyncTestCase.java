@@ -19,8 +19,11 @@ import org.mule.tck.testmodels.fruit.Fruit;
 
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
+// TODO(pablo.kraan): API - this test uses internal message
 public class MulticastSyncTestCase extends AbstractIntegrationTestCase {
 
   @Override

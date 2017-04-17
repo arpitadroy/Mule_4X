@@ -12,6 +12,7 @@ import org.mule.runtime.core.api.interceptor.Interceptor;
 import org.mule.runtime.core.internal.message.InternalMessage;
 import org.mule.runtime.core.processor.AbstractInterceptingMessageProcessor;
 
+// TODO(pablo.kraan): API - review usages of this class as it won' work because it references internal message
 public class MyCustomInterceptor extends AbstractInterceptingMessageProcessor implements Interceptor {
 
   @Override
