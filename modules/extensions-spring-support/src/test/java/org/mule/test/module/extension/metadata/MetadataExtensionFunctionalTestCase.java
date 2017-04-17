@@ -151,7 +151,7 @@ public abstract class MetadataExtensionFunctionalTestCase<T extends ComponentMod
     personType = getMetadata(PERSON_METADATA_KEY.getId());
   }
 
-  enum ResolutionType {
+  public enum ResolutionType {
     EXPLICIT_RESOLUTION, DSL_RESOLUTION
   }
 

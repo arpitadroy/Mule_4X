@@ -4,7 +4,7 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package org.mule.runtime.module.extension.internal.soap;
+package org.mule.test.module.extension.soap;
 
 import static org.mule.runtime.core.api.lifecycle.LifecycleUtils.startIfNeeded;
 import static org.mule.runtime.core.api.lifecycle.LifecycleUtils.stopIfNeeded;
@@ -19,8 +19,8 @@ import org.mule.runtime.core.api.config.ConfigurationBuilder;
 import org.mule.runtime.core.api.scheduler.SchedulerService;
 import org.mule.runtime.core.config.builders.AbstractConfigurationBuilder;
 import org.mule.runtime.core.util.IOUtils;
-import org.mule.runtime.module.extension.internal.soap.services.FootballService;
-import org.mule.runtime.module.extension.internal.soap.services.LaLigaService;
+import org.mule.test.module.extension.soap.services.FootballService;
+import org.mule.test.module.extension.soap.services.LaLigaService;
 import org.mule.service.http.api.HttpService;
 import org.mule.services.http.impl.service.HttpServiceImplementation;
 import org.mule.services.soap.SoapServiceImplementation;
@@ -37,6 +37,8 @@ import org.junit.Rule;
 import org.junit.Test;
 
 public class InvokeOperationExecutionTestCase extends SoapExtensionFunctionalTestCase {
+
+  public static final String SOAP_CONFIG = "soap-config.xml";
 
   @Rule
   public DynamicPort footballPort = new DynamicPort("footballPort");
@@ -88,7 +90,7 @@ public class InvokeOperationExecutionTestCase extends SoapExtensionFunctionalTes
 
   @Override
   protected String getConfigFile() {
-    return "soap-config.xml";
+    return SOAP_CONFIG;
   }
 
   @Override
