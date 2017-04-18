@@ -10,9 +10,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import org.mule.functional.junit4.TestLegacyMessageBuilder;
 import org.mule.runtime.api.message.Message;
-import org.mule.test.AbstractIntegrationTestCase;
-import org.mule.runtime.core.internal.message.InternalMessage;
 import org.mule.runtime.core.expression.transformers.BeanBuilderTransformer;
 import org.mule.runtime.core.expression.transformers.ExpressionArgument;
 import org.mule.runtime.core.expression.transformers.ExpressionTransformer;
@@ -20,17 +19,15 @@ import org.mule.tck.testmodels.fruit.Apple;
 import org.mule.tck.testmodels.fruit.Banana;
 import org.mule.tck.testmodels.fruit.FruitBasket;
 import org.mule.tck.testmodels.fruit.FruitBowl;
+import org.mule.test.AbstractIntegrationTestCase;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
-// TODO(pablo.kraan): API - this test uses internal message - requires to build a legacy message
 public class ExpressionTransformerELTestCase extends AbstractIntegrationTestCase {
 
   @Override
@@ -90,7 +87,7 @@ public class ExpressionTransformerELTestCase extends AbstractIntegrationTestCase
     props.put("bar", "mar");
 
     Message message =
-        InternalMessage.builder().payload(new FruitBowl(new Apple(), new Banana())).outboundProperties(props).build();
+        new TestLegacyMessageBuilder().payload(new FruitBowl(new Apple(), new Banana())).outboundProperties(props).build();
 
     Object result = transformer.transform(message);
     assertNotNull(result);
@@ -113,7 +110,7 @@ public class ExpressionTransformerELTestCase extends AbstractIntegrationTestCase
     props.put("foo", "moo");
 
     Message message =
-        InternalMessage.builder().payload(new FruitBowl(new Apple(), new Banana())).outboundProperties(props).build();
+        new TestLegacyMessageBuilder().payload(new FruitBowl(new Apple(), new Banana())).outboundProperties(props).build();
 
     Object result = transformer.transform(message);
     assertNotNull(result);
@@ -136,7 +133,7 @@ public class ExpressionTransformerELTestCase extends AbstractIntegrationTestCase
     props.put("bar", "mar");
 
     Message message =
-        InternalMessage.builder().payload(new FruitBowl(new Apple(), new Banana())).outboundProperties(props).build();
+        new TestLegacyMessageBuilder().payload(new FruitBowl(new Apple(), new Banana())).outboundProperties(props).build();
 
     Object result = transformer.transform(message);
     assertNotNull(result);
@@ -159,7 +156,7 @@ public class ExpressionTransformerELTestCase extends AbstractIntegrationTestCase
     props.put("bar", "mar");
 
     Message message =
-        InternalMessage.builder().payload(new FruitBowl(new Apple(), new Banana())).outboundProperties(props).build();
+        new TestLegacyMessageBuilder().payload(new FruitBowl(new Apple(), new Banana())).outboundProperties(props).build();
 
     Object result = transformer.transform(message);
     assertNotNull(result);

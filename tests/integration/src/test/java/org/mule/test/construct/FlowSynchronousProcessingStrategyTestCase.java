@@ -12,10 +12,6 @@ import static org.junit.Assert.assertThat;
 import static org.mule.functional.junit4.LegacyMessageTestUtils.getOutboundProperty;
 import org.mule.runtime.api.message.Message;
 
-import org.junit.Ignore;
-
-@Ignore
-// TODO(pablo.kraan): API - this test uses internal message (need a test event builder that receives an event in the constructor
 public class FlowSynchronousProcessingStrategyTestCase extends FlowDefaultProcessingStrategyTestCase {
 
   @Override

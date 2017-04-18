@@ -14,11 +14,8 @@ import static org.mule.test.core.lifecycle.LifecycleTrackerProcessor.LIFECYCLE_T
 import org.mule.runtime.core.api.Event;
 import org.mule.test.AbstractIntegrationTestCase;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
-// TODO(pablo.kraan): API - this test uses internal message (need a test event builder that receives an event in the constructor
 public class SubFlowTestCase extends AbstractIntegrationTestCase {
 
   @Override

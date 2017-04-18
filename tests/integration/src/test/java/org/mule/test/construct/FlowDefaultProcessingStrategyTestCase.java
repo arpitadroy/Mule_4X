@@ -12,19 +12,16 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.mule.functional.junit4.LegacyMessageTestUtils.getOutboundProperty;
 import static org.mule.functional.junit4.TransactionConfigEnum.ACTION_ALWAYS_BEGIN;
+import org.mule.functional.junit4.TestLegacyMessageBuilder;
 import org.mule.runtime.api.exception.MuleException;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.core.api.Event;
 import org.mule.runtime.core.api.processor.Processor;
-import org.mule.runtime.core.internal.message.InternalMessage;
 import org.mule.tck.testmodels.mule.TestTransactionFactory;
 import org.mule.test.AbstractIntegrationTestCase;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
-// TODO(pablo.kraan): API - this test uses internal message (need a test event builder that receives an event in the constructor
 public class FlowDefaultProcessingStrategyTestCase extends AbstractIntegrationTestCase {
 
   protected static final String PROCESSOR_THREAD = "processor-thread";
@@ -76,10 +73,8 @@ public class FlowDefaultProcessingStrategyTestCase extends AbstractIntegrationTe
 
     @Override
     public Event process(Event event) throws MuleException {
-      return Event.builder(event)
-          .message(InternalMessage.builder(event.getMessage()).addOutboundProperty(PROCESSOR_THREAD, currentThread().getName())
-              .build())
-          .build();
+      return Event.builder(event).message(new TestLegacyMessageBuilder(event.getMessage())
+          .addOutboundProperty(PROCESSOR_THREAD, currentThread().getName()).build()).build();
     }
   }
 
