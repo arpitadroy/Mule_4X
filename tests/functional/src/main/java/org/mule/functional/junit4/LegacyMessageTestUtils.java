@@ -18,18 +18,15 @@ import java.util.Set;
 
 import javax.activation.DataHandler;
 
-import sun.jvm.hotspot.utilities.UnsupportedPlatformException;
-
 /**
  * Provides utility methods to work with the legacy message API for testing purposes only
  *
- * @deprecated tests should not access properties and attachements using the old API.
+ * @deprecated tests should not access properties and attachments using the old API.
  */
 @Deprecated
-public class LegacyMessageTestUtils  {
+public class LegacyMessageTestUtils {
 
-  private LegacyMessageTestUtils() {
-  }
+  private LegacyMessageTestUtils() {}
 
   /**
    * Gets an outbound property from the message.
@@ -42,6 +39,7 @@ public class LegacyMessageTestUtils  {
   public static <T extends Serializable> T getOutboundProperty(Message message, String name) {
     try {
       Method method = message.getClass().getMethod("getOutboundProperty", String.class);
+      method.setAccessible(true);
       return (T) method.invoke(message, name);
     } catch (Exception e) {
       throw new IllegalStateException("Error trying to access old message API", e);
@@ -63,7 +61,7 @@ public class LegacyMessageTestUtils  {
    */
   public static <T extends Serializable> T getOutboundProperty(Message message, String name, T defaultValue) {
     // TODO(pablo.kraan): API - implement this method
-    throw new UnsupportedPlatformException("Not implemented yet!!!");
+    throw new UnsupportedOperationException("Not implemented yet!!!");
     //return ((InternalMessage) message).getOutboundProperty(name, defaultValue);
   }
 
@@ -78,7 +76,7 @@ public class LegacyMessageTestUtils  {
   public static DataType getOutboundPropertyDataType(Message message, String name) {
     //return ((InternalMessage) message).getOutboundPropertyDataType(name);
     // TODO(pablo.kraan): API - implement this method
-    throw new UnsupportedPlatformException("Not implemented yet!!!");
+    throw new UnsupportedOperationException("Not implemented yet!!!");
   }
 
   /**
@@ -91,7 +89,7 @@ public class LegacyMessageTestUtils  {
   public static Set<String> getOutboundPropertyNames(Message message) {
     //return ((InternalMessage) message).getOutboundPropertyNames();
     // TODO(pablo.kraan): API - implement this method
-    throw new UnsupportedPlatformException("Not implemented yet!!!");
+    throw new UnsupportedOperationException("Not implemented yet!!!");
   }
 
   /**
@@ -105,7 +103,7 @@ public class LegacyMessageTestUtils  {
   public static <T extends Serializable> T getInboundProperty(Message message, String name) {
     //return ((InternalMessage) message).getInboundProperty(name);
     // TODO(pablo.kraan): API - implement this method
-    throw new UnsupportedPlatformException("Not implemented yet!!!");
+    throw new UnsupportedOperationException("Not implemented yet!!!");
   }
 
   /**
@@ -124,7 +122,7 @@ public class LegacyMessageTestUtils  {
   public static <T extends Serializable> T getInboundProperty(Message message, String name, T defaultValue) {
     //return ((InternalMessage) message).getInboundProperty(name, defaultValue);
     // TODO(pablo.kraan): API - implement this method
-    throw new UnsupportedPlatformException("Not implemented yet!!!");
+    throw new UnsupportedOperationException("Not implemented yet!!!");
   }
 
   /**
@@ -138,7 +136,7 @@ public class LegacyMessageTestUtils  {
   public static DataType getInboundPropertyDataType(Message message, String name) {
     //return ((InternalMessage) message).getInboundPropertyDataType(name);
     // TODO(pablo.kraan): API - implement this method
-    throw new UnsupportedPlatformException("Not implemented yet!!!");
+    throw new UnsupportedOperationException("Not implemented yet!!!");
   }
 
 
@@ -152,7 +150,7 @@ public class LegacyMessageTestUtils  {
   public static Set<String> getInboundPropertyNames(Message message) {
     //return ((InternalMessage) message).getInboundPropertyNames();
     // TODO(pablo.kraan): API - implement this method
-    throw new UnsupportedPlatformException("Not implemented yet!!!");
+    throw new UnsupportedOperationException("Not implemented yet!!!");
   }
 
   /**
@@ -166,7 +164,7 @@ public class LegacyMessageTestUtils  {
   public static ExceptionPayload getExceptionPayload(Message message) {
     //return ((InternalMessage) message).getExceptionPayload();
     // TODO(pablo.kraan): API - implement this method
-    throw new UnsupportedPlatformException("Not implemented yet!!!");
+    throw new UnsupportedOperationException("Not implemented yet!!!");
   }
 
 
@@ -181,7 +179,7 @@ public class LegacyMessageTestUtils  {
   public static DataHandler getInboundAttachment(Message message, String name) {
     //return ((InternalMessage) message).getInboundAttachment(name);
     // TODO(pablo.kraan): API - implement this method
-    throw new UnsupportedPlatformException("Not implemented yet!!!");
+    throw new UnsupportedOperationException("Not implemented yet!!!");
   }
 
   /**
@@ -196,7 +194,7 @@ public class LegacyMessageTestUtils  {
   public static DataHandler getOutboundAttachment(Message message, String name) {
     //return ((InternalMessage) message).getOutboundAttachment(name);
     // TODO(pablo.kraan): API - implement this method
-    throw new UnsupportedPlatformException("Not implemented yet!!!");
+    throw new UnsupportedOperationException("Not implemented yet!!!");
   }
 
 
@@ -208,7 +206,7 @@ public class LegacyMessageTestUtils  {
   public static Set<String> getInboundAttachmentNames(Message message) {
     //return ((InternalMessage) message).getInboundAttachmentNames();
     // TODO(pablo.kraan): API - implement this method
-    throw new UnsupportedPlatformException("Not implemented yet!!!");
+    throw new UnsupportedOperationException("Not implemented yet!!!");
   }
 
   /**
@@ -219,7 +217,7 @@ public class LegacyMessageTestUtils  {
   public static Set<String> getOutboundAttachmentNames(Message message) {
     //return ((InternalMessage) message).getOutboundAttachmentNames();
     // TODO(pablo.kraan): API - implement this method
-    throw new UnsupportedPlatformException("Not implemented yet!!!");
+    throw new UnsupportedOperationException("Not implemented yet!!!");
   }
 
 }
