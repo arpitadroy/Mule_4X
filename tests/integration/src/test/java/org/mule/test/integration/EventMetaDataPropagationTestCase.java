@@ -12,7 +12,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.mule.functional.junit4.LegacyMessageTestUtils.getOutboundProperty;
+import static org.mule.functional.junit4.TestLegacyMessageUtils.getOutboundProperty;
 import static org.mule.runtime.core.message.DefaultMultiPartPayload.BODY_ATTRIBUTES;
 import org.mule.functional.junit4.TestLegacyMessageBuilder;
 import org.mule.runtime.api.message.Message;

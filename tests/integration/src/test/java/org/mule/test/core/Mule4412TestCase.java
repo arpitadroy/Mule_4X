@@ -9,7 +9,7 @@ package org.mule.test.core;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.mule.functional.junit4.LegacyMessageTestUtils.getInboundProperty;
+import static org.mule.functional.junit4.TestLegacyMessageUtils.getInboundProperty;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.core.api.client.MuleClient;
 import org.mule.test.AbstractIntegrationTestCase;

@@ -10,7 +10,7 @@ import static java.lang.Thread.currentThread;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
-import static org.mule.functional.junit4.LegacyMessageTestUtils.getOutboundProperty;
+import static org.mule.functional.junit4.TestLegacyMessageUtils.getOutboundProperty;
 import static org.mule.functional.junit4.TransactionConfigEnum.ACTION_ALWAYS_BEGIN;
 import org.mule.functional.junit4.TestLegacyMessageBuilder;
 import org.mule.runtime.api.exception.MuleException;

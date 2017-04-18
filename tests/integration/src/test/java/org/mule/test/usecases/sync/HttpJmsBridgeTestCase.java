@@ -10,7 +10,7 @@ import static java.lang.String.format;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.mule.functional.junit4.LegacyMessageTestUtils.getOutboundProperty;
+import static org.mule.functional.junit4.TestLegacyMessageUtils.getOutboundProperty;
 import static org.mule.service.http.api.HttpConstants.Method.POST;
 import org.mule.runtime.api.message.Message;
 import org.mule.service.http.api.HttpService;

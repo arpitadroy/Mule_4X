@@ -6,7 +6,7 @@
  */
 package org.mule.test.filters;
 
-import static org.mule.functional.junit4.LegacyMessageTestUtils.getInboundProperty;
+import static org.mule.functional.junit4.TestLegacyMessageUtils.getInboundProperty;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.core.api.Event;
 import org.mule.runtime.core.api.routing.filter.Filter;

@@ -14,7 +14,7 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mule.functional.functional.InvocationCountMessageProcessor.getNumberOfInvocationsFor;
-import static org.mule.functional.junit4.LegacyMessageTestUtils.getExceptionPayload;
+import static org.mule.functional.junit4.TestLegacyMessageUtils.getExceptionPayload;
 import org.mule.functional.functional.FunctionalTestComponent;
 import org.mule.runtime.api.exception.MuleException;
 import org.mule.runtime.api.exception.MuleRuntimeException;

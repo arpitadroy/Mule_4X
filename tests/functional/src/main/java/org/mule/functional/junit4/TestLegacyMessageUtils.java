@@ -21,11 +21,11 @@ import java.lang.reflect.Method;
  * @deprecated tests should not access properties, attachments or exception payload using the old API.
  */
 @Deprecated
-public class LegacyMessageTestUtils {
+public class TestLegacyMessageUtils {
 
   static final String LEGACY_MESSAGE_API_ERROR = "Error trying to access legacy message API";
 
-  private LegacyMessageTestUtils() {}
+  private TestLegacyMessageUtils() {}
 
   /**
    * Gets an outbound property from the message.
