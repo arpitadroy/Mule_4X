@@ -8,7 +8,6 @@ package org.mule.functional.junit4;
 
 import static org.mockito.Mockito.spy;
 import static org.mule.tck.junit4.AbstractMuleTestCase.TEST_CONNECTOR;
-import org.mule.runtime.api.exception.MuleRuntimeException;
 import org.mule.runtime.api.message.Attributes;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.metadata.MediaType;
@@ -17,10 +16,8 @@ import org.mule.runtime.core.api.Event;
 import org.mule.runtime.core.api.EventContext;
 import org.mule.runtime.core.api.connector.ReplyToHandler;
 import org.mule.runtime.core.api.construct.FlowConstruct;
-import org.mule.runtime.core.internal.message.InternalMessage;
 import org.mule.runtime.core.message.DefaultMultiPartPayload;
 import org.mule.runtime.core.message.GroupCorrelation;
-import org.mule.runtime.core.util.IOUtils;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -148,38 +145,6 @@ public class TestEventBuilder {
    * @deprecated Transport infrastructure is deprecated. Use {@link DefaultMultiPartPayload} instead.
    */
   @Deprecated
-  public TestEventBuilder withOutboundAttachment(String key, DataHandler value) {
-    outboundAttachments.put(key, new DataHandlerAttachment(value));
-
-    return this;
-  }
-
-  /**
-   * Prepares an attachment with the given key and value to be sent in the product.
-   *
-   * @param key         the key of the attachment to add
-   * @param object      the content of the attachment to add
-   * @param contentType the content type of the attachment to add. Note that the charset attribute can be specifed too i.e.
-   *                    text/plain;charset=UTF-8
-   * @return this {@link TestEventBuilder}
-   * @deprecated Transport infrastructure is deprecated. Use {@link DefaultMultiPartPayload} instead.
-   */
-  @Deprecated
-  public TestEventBuilder withOutboundAttachment(String key, Object object, MediaType contentType) {
-    outboundAttachments.put(key, new ObjectAttachment(object, contentType));
-
-    return this;
-  }
-
-  /**
-   * Prepares an attachment with the given key and value to be sent in the product.
-   *
-   * @param key   the key of the attachment to add
-   * @param value the {@link DataHandler} for the attachment to add
-   * @return this {@link TestEventBuilder}
-   * @deprecated Transport infrastructure is deprecated. Use {@link DefaultMultiPartPayload} instead.
-   */
-  @Deprecated
   public TestEventBuilder withInboundAttachment(String key, DataHandler value) {
     inboundAttachments.put(key, value);
 
@@ -274,7 +239,6 @@ public class TestEventBuilder {
   public Event build(FlowConstruct flow) {
     final Message.Builder messageBuilder;
 
-    // TODO(pablo.kraan): API - review which usages require access to internal message and move to compatibility if needed
     messageBuilder = Message.builder().payload(payload).mediaType(mediaType);
 
     setInboundProperties(messageBuilder, inboundProperties);
@@ -306,7 +270,6 @@ public class TestEventBuilder {
     return (Event) spyTransformer.transform(event);
   }
 
-  // TODO(pablo.kraan): API - add methods likie this one for outbound properties and inbound attachements
   private void setInboundProperties(Message.Builder messageBuilder, Map<String, Serializable> inboundProperties) {
     try {
       Method inboundPropertiesMethod = messageBuilder.getClass().getMethod("inboundProperties", Map.class);
@@ -328,46 +291,5 @@ public class TestEventBuilder {
   private interface Attachment {
 
     Event addOutboundTo(Event event, String key);
-  }
-
-
-  private class DataHandlerAttachment implements Attachment {
-
-    private DataHandler dataHandler;
-
-    public DataHandlerAttachment(DataHandler dataHandler) {
-      this.dataHandler = dataHandler;
-    }
-
-    @Override
-    public Event addOutboundTo(Event event, String key) {
-      // TODO(pablo.kraan): API - review usages of internal message
-      return Event.builder(event)
-          .message(InternalMessage.builder(event.getMessage()).addOutboundAttachment(key, dataHandler).build()).build();
-    }
-  }
-
-
-  private class ObjectAttachment implements Attachment {
-
-    private Object object;
-    private MediaType contentType;
-
-    public ObjectAttachment(Object object, MediaType contentType) {
-      this.object = object;
-      this.contentType = contentType;
-    }
-
-    @Override
-    public Event addOutboundTo(Event event, String key) {
-      try {
-        // TODO(pablo.kraan): API - review usages of internal message
-        return Event.builder(event).message(InternalMessage.builder(event.getMessage())
-            .addOutboundAttachment(key, IOUtils.toDataHandler(key, object, contentType))
-            .build()).build();
-      } catch (Exception e) {
-        throw new MuleRuntimeException(e);
-      }
-    }
   }
 }
