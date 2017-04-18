@@ -188,7 +188,8 @@ public class ForeachTestCase extends AbstractIntegrationTestCase {
   public void messageCollectionConfigurationOneWay() throws Exception {
     List<Message> list = new ArrayList<>();
     for (int i = 0; i < 10; i++) {
-      list.add(new TestLegacyMessageBuilder().payload("message-" + i).inboundProperties(singletonMap("out", "out" + (i + 1))).build());
+      list.add(new TestLegacyMessageBuilder().payload("message-" + i).inboundProperties(singletonMap("out", "out" + (i + 1)))
+          .build());
     }
     final String flowName = "message-collection-config-one-way";
     flowRunner(flowName).withPayload(list).run();

@@ -1,8 +1,8 @@
 /*
- * (c) 2003-2015 MuleSoft, Inc. This software is protected under international copyright
- * law. All use of this software is subject to MuleSoft's Master Subscription Agreement
- * (or other master license agreement) separately entered into in writing between you and
- * MuleSoft. If such an agreement is not in place, you may not use the software.
+ * Copyright (c) MuleSoft, Inc.  All rights reserved.  http://www.mulesoft.com
+ * The software in this package is published under the terms of the CPAL v1.0
+ * license, a copy of which has been included with this distribution in the
+ * LICENSE.txt file.
  */
 
 package org.mule.functional.junit4;
@@ -10,6 +10,7 @@ package org.mule.functional.junit4;
 import static org.mule.functional.junit4.TestLegacyMessageUtils.LEGACY_MESSAGE_API_ERROR;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.metadata.MediaType;
+import org.mule.runtime.core.api.message.ExceptionPayload;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -145,7 +146,24 @@ public class TestLegacyMessageBuilder implements Message.Builder {
     } catch (Exception e) {
       throw new IllegalStateException(LEGACY_MESSAGE_API_ERROR, e);
     }
-    
+
+    return this;
+  }
+
+  /**
+   * @param exceptionPayload
+   * @return this builder.
+   * @throws {@link IllegalStateException} if there is any problem accessing the legacy message API using reflection
+   */
+  public TestLegacyMessageBuilder exceptionPayload(ExceptionPayload exceptionPayload) {
+    checkInternalState();
+    try {
+      Method method = builder.getClass().getMethod("exceptionPayload", ExceptionPayload.class);
+      method.setAccessible(true);
+      method.invoke(builder, exceptionPayload);
+    } catch (Exception e) {
+      throw new IllegalStateException(LEGACY_MESSAGE_API_ERROR, e);
+    }
     return this;
   }
 
