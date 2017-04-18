@@ -21,12 +21,9 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
-@Ignore
-// TODO(pablo.kraan): API - this test uses internal message
 public class FlowNestingTestCase extends AbstractIntegrationTestCase {
 
   @Rule

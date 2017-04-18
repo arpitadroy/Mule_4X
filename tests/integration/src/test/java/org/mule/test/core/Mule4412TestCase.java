@@ -9,20 +9,18 @@ package org.mule.test.core;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.mule.functional.junit4.LegacyMessageTestUtils.getInboundProperty;
+import org.mule.runtime.api.message.Message;
 import org.mule.runtime.core.api.client.MuleClient;
-import org.mule.runtime.core.internal.message.InternalMessage;
 import org.mule.test.AbstractIntegrationTestCase;
 import org.mule.test.filters.FilterCounter;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
  * Test for MULE-4412 : selective-consumer filter is applied twice. We test that the filter is only applied once in the positive
  * case, plus make sure it doesn't get filtered at all when the message does not meet the filter criteria
  */
-@Ignore
-// TODO(pablo.kraan): API - this test uses internal message
 public class Mule4412TestCase extends AbstractIntegrationTestCase {
 
   @Override
@@ -54,12 +52,12 @@ public class Mule4412TestCase extends AbstractIntegrationTestCase {
     MuleClient client = muleContext.getClient();
     flowRunner("AsyncRequest").withPayload(TEST_MESSAGE).withInboundProperty("pass", "true").run();
 
-    InternalMessage reply = (InternalMessage) client.request("test://asyncResponse", RECEIVE_TIMEOUT).getRight().get();
+    Message reply = client.request("test://asyncResponse", RECEIVE_TIMEOUT).getRight().get();
     int times = FilterCounter.counter.get();
     assertThat("did not filter one time as expected", times, is(1));
     assertNotNull(reply);
     assertThat("wrong message received", getPayloadAsString(reply), is(TEST_MESSAGE));
-    assertThat("'pass' property value not correct", reply.getInboundProperty("pass"), is("true"));
+    assertThat("'pass' property value not correct", getInboundProperty(reply, "pass"), is("true"));
 
     // make sure there are no more messages
     assertThat(client.request("test://asyncResponse", RECEIVE_TIMEOUT).getRight().isPresent(), is(false));

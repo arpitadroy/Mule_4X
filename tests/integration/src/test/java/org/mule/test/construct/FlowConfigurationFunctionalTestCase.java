@@ -19,6 +19,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mule.functional.junit4.LegacyMessageTestUtils.getOutboundProperty;
 import static org.mule.functional.junit4.TransactionConfigEnum.ACTION_ALWAYS_BEGIN;
 import static org.mule.runtime.api.message.Message.of;
 import static org.mule.runtime.api.metadata.MediaType.APPLICATION_XML;
@@ -29,7 +30,6 @@ import org.mule.runtime.core.DefaultEventContext;
 import org.mule.runtime.core.api.Event;
 import org.mule.runtime.core.api.client.MuleClient;
 import org.mule.runtime.core.api.construct.Flow;
-import org.mule.runtime.core.internal.message.InternalMessage;
 import org.mule.runtime.core.api.processor.Processor;
 import org.mule.runtime.core.api.source.CompositeMessageSource;
 import org.mule.runtime.core.api.source.MessageSource;
@@ -52,8 +52,6 @@ import java.util.Map;
 import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
-// TODO(pablo.kraan): API - this test uses internal message
 public class FlowConfigurationFunctionalTestCase extends AbstractIntegrationTestCase {
 
   private static final String EXPECTED_ARRAY_IN_ARGS_RESULT = "testtestrecieved";
@@ -468,15 +466,15 @@ public class FlowConfigurationFunctionalTestCase extends AbstractIntegrationTest
   @Test
   public void testEnrichWithAttributes() throws Exception {
     final Message muleMessage = flowRunner("enrich").withPayload("0").run().getMessage();
-    assertEquals("0Hello", ((InternalMessage) muleMessage).getOutboundProperty("helloHeader"));
+    assertEquals("0Hello", getOutboundProperty(muleMessage, "helloHeader"));
   }
 
   @Test
   public void testEnrichWithElements() throws Exception {
     Message result = flowRunner("enrich2").withPayload("0").run().getMessage();
 
-    assertEquals("0Hello", ((InternalMessage) result).getOutboundProperty("helloHeader"));
-    assertEquals("0Hello", ((InternalMessage) result).getOutboundProperty("helloHeader2"));
+    assertEquals("0Hello", getOutboundProperty(result, "helloHeader"));
+    assertEquals("0Hello", getOutboundProperty(result, "helloHeader2"));
   }
 
   @Test
@@ -484,7 +482,7 @@ public class FlowConfigurationFunctionalTestCase extends AbstractIntegrationTest
     // MULE-5544
     Message result = flowRunner("enrichcomponent").withPayload("0").run().getMessage();
 
-    assertEquals("0", ((InternalMessage) result).getOutboundProperty("echoHeader"));
+    assertEquals("0", getOutboundProperty(result, "echoHeader"));
   }
 
   @Test
@@ -492,7 +490,7 @@ public class FlowConfigurationFunctionalTestCase extends AbstractIntegrationTest
     // MULE-5544
     Message result = flowRunner("enrichcomponent2").withPayload("0").run().getMessage();
 
-    assertEquals("0", ((InternalMessage) result).getOutboundProperty("echoHeader"));
+    assertEquals("0", getOutboundProperty(result, "echoHeader"));
   }
 
   @Test

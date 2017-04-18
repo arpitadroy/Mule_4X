@@ -9,19 +9,16 @@ package org.mule.test.core.transformers.simple;
 
 import static java.nio.charset.StandardCharsets.UTF_16;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mule.functional.junit4.LegacyMessageTestUtils.getOutboundPropertyDataType;
 import static org.mule.tck.junit4.matcher.DataTypeMatcher.like;
-
-import org.mule.test.AbstractIntegrationTestCase;
+import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.metadata.DataType;
 import org.mule.runtime.api.metadata.MediaType;
 import org.mule.runtime.core.api.Event;
-import org.mule.runtime.core.internal.message.InternalMessage;
+import org.mule.test.AbstractIntegrationTestCase;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
-// TODO(pablo.kraan): API - this test uses internal message
 public class SetPropertyDataTypeTestCase extends AbstractIntegrationTestCase {
 
   @Override
@@ -33,8 +30,8 @@ public class SetPropertyDataTypeTestCase extends AbstractIntegrationTestCase {
   public void setsPropertyDataType() throws Exception {
     final Event muleEvent = flowRunner("main").withPayload(TEST_MESSAGE).run();
 
-    InternalMessage response = (InternalMessage) muleEvent.getMessage();
-    DataType dataType = response.getOutboundPropertyDataType("testProperty");
+    Message response = muleEvent.getMessage();
+    DataType dataType = getOutboundPropertyDataType(response, "testProperty");
 
     assertThat(dataType, like(String.class, MediaType.XML, UTF_16));
   }

@@ -8,15 +8,12 @@ package org.mule.test.integration.message;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mule.functional.junit4.LegacyMessageTestUtils.getOutboundProperty;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.core.api.client.MuleClient;
-import org.mule.runtime.core.internal.message.InternalMessage;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
-// TODO(pablo.kraan): API - this test uses internal message
 public class PropertyScopeTestCase extends AbstractPropertyScopeTestCase {
 
   @Override
@@ -29,7 +26,7 @@ public class PropertyScopeTestCase extends AbstractPropertyScopeTestCase {
     Message result = flowRunner("s1").withPayload(TEST_PAYLOAD).withInboundProperty("foo", "fooValue").run().getMessage();
 
     assertThat(result.getPayload().getValue(), is("test bar"));
-    assertThat(((InternalMessage) result).getOutboundProperty("foo4"), is("fooValue"));
+    assertThat(getOutboundProperty(result, "foo4"), is("fooValue"));
   }
 
   @Test
@@ -40,7 +37,7 @@ public class PropertyScopeTestCase extends AbstractPropertyScopeTestCase {
     Message result = client.request("test://queueOut", RECEIVE_TIMEOUT).getRight().get();
 
     assertThat(result.getPayload().getValue(), is("test bar"));
-    assertThat(((InternalMessage) result).getOutboundProperty("foo2"), is("fooValue"));
+    assertThat(getOutboundProperty(result, "foo2"), is("fooValue"));
   }
 
   @Test
@@ -51,6 +48,6 @@ public class PropertyScopeTestCase extends AbstractPropertyScopeTestCase {
     Message result = client.request("test://rrQueueOut", RECEIVE_TIMEOUT).getRight().get();
 
     assertThat(result.getPayload().getValue(), is("test baz"));
-    assertThat(((InternalMessage) result).getOutboundProperty("foo2"), is("rrfooValue"));
+    assertThat(getOutboundProperty(result, "foo2"), is("rrfooValue"));
   }
 }

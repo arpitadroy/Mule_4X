@@ -30,7 +30,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 @Ignore
-// TODO(pablo.kraan): API - this test uses internal message
+// TODO(pablo.kraan): API - this test uses internal message - requires to build a legacy message
 public class ExpressionTransformerELTestCase extends AbstractIntegrationTestCase {
 
   @Override

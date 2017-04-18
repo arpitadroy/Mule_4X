@@ -25,7 +25,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 @Ignore
-// TODO(pablo.kraan): API - this test uses internal message
+// TODO(pablo.kraan): API - this test uses internal message (need a test event builder that receives an event in the constructor
 public class FlowAsyncBeforeAfterOutboundTestCase extends AbstractIntegrationTestCase {
 
   @Override

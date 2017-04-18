@@ -9,13 +9,13 @@ package org.mule.test.construct;
 import static java.lang.Thread.currentThread;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mule.functional.junit4.LegacyMessageTestUtils.getOutboundProperty;
 import org.mule.runtime.api.message.Message;
-import org.mule.runtime.core.internal.message.InternalMessage;
 
 import org.junit.Ignore;
 
 @Ignore
-// TODO(pablo.kraan): API - this test uses internal message
+// TODO(pablo.kraan): API - this test uses internal message (need a test event builder that receives an event in the constructor
 public class FlowSynchronousProcessingStrategyTestCase extends FlowDefaultProcessingStrategyTestCase {
 
   @Override
@@ -29,7 +29,7 @@ public class FlowSynchronousProcessingStrategyTestCase extends FlowDefaultProces
 
     Message message = muleContext.getClient().request("test://out", RECEIVE_TIMEOUT).getRight().get();
 
-    assertThat(((InternalMessage) message).getOutboundProperty(PROCESSOR_THREAD), is(Thread.currentThread().getName()));
+    assertThat(getOutboundProperty(message, PROCESSOR_THREAD), is(Thread.currentThread().getName()));
   }
 
   @Override
@@ -38,8 +38,6 @@ public class FlowSynchronousProcessingStrategyTestCase extends FlowDefaultProces
     assertThat(response.getPayload().getValue().toString(), is(TEST_PAYLOAD));
 
     Message message = muleContext.getClient().request("test://out", RECEIVE_TIMEOUT).getRight().get();
-    assertThat(((InternalMessage) message).getOutboundProperty(PROCESSOR_THREAD), is(currentThread().getName()));
+    assertThat(getOutboundProperty(message, PROCESSOR_THREAD), is(currentThread().getName()));
   }
-
-
 }

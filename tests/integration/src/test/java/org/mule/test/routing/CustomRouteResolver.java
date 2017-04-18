@@ -6,24 +6,21 @@
  */
 package org.mule.test.routing;
 
+import org.mule.runtime.api.exception.MuleException;
+import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.metadata.DataType;
 import org.mule.runtime.core.api.DefaultMuleException;
-import org.mule.runtime.core.api.MuleContext;
 import org.mule.runtime.core.api.Event;
-import org.mule.runtime.api.exception.MuleException;
-import org.mule.runtime.core.internal.message.InternalMessage;
+import org.mule.runtime.core.api.MuleContext;
 import org.mule.runtime.core.api.context.MuleContextAware;
 import org.mule.runtime.core.api.processor.Processor;
 import org.mule.runtime.core.config.i18n.CoreMessages;
+import org.mule.runtime.core.internal.message.InternalMessage;
 import org.mule.runtime.core.routing.DynamicRouteResolver;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Ignore;
-
-@Ignore
-// TODO(pablo.kraan): API - this test uses internal message
 public class CustomRouteResolver implements DynamicRouteResolver {
 
   static List<Processor> routes = new ArrayList<>();
@@ -44,7 +41,7 @@ public class CustomRouteResolver implements DynamicRouteResolver {
     @Override
     public Event process(Event event) throws MuleException {
       try {
-        return Event.builder(event).message(InternalMessage.builder(event.getMessage()).payload(letter).build()).build();
+        return Event.builder(event).message(Message.builder(event.getMessage()).payload(letter).build()).build();
       } catch (Exception e) {
         throw new DefaultMuleException(e);
       }

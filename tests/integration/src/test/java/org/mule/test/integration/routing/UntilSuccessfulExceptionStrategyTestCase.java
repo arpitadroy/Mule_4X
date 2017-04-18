@@ -12,9 +12,9 @@ import static org.mule.tck.MuleTestUtils.createErrorMock;
 import org.mule.runtime.api.exception.MuleException;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.core.api.Event;
-import org.mule.runtime.core.internal.message.InternalMessage;
 import org.mule.runtime.core.api.processor.Processor;
 import org.mule.runtime.core.internal.message.DefaultExceptionPayload;
+import org.mule.runtime.core.internal.message.InternalMessage;
 import org.mule.runtime.core.util.concurrent.Latch;
 import org.mule.test.AbstractIntegrationTestCase;
 
@@ -24,9 +24,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
 @Ignore
-// TODO(pablo.kraan): API - this test uses internal message
+// TODO(pablo.kraan): API - this test uses internal message - requires to build a legacy message
 public class UntilSuccessfulExceptionStrategyTestCase extends AbstractIntegrationTestCase {
 
   private static final int TIMEOUT = 10;

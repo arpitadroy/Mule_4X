@@ -26,6 +26,9 @@ import javax.activation.DataHandler;
 @Deprecated
 public class LegacyMessageTestUtils {
 
+  // TODO(pablo.kraan): API - fix javaodcs as now the methods throw IllegalStateException instead of class cast exception
+  private static final String LEGACY_MESSAGE_API_ERROR = "Error trying to access legacy message API";
+
   private LegacyMessageTestUtils() {}
 
   /**
@@ -42,7 +45,7 @@ public class LegacyMessageTestUtils {
       method.setAccessible(true);
       return (T) method.invoke(message, name);
     } catch (Exception e) {
-      throw new IllegalStateException("Error trying to access old message API", e);
+      throw new IllegalStateException(LEGACY_MESSAGE_API_ERROR, e);
     }
   }
 
@@ -74,9 +77,13 @@ public class LegacyMessageTestUtils {
    * @throws {@link ClassCastException} if the message is not a internal message.
    */
   public static DataType getOutboundPropertyDataType(Message message, String name) {
-    //return ((InternalMessage) message).getOutboundPropertyDataType(name);
-    // TODO(pablo.kraan): API - implement this method
-    throw new UnsupportedOperationException("Not implemented yet!!!");
+    try {
+      Method method = message.getClass().getMethod("getOutboundPropertyDataType", String.class);
+      method.setAccessible(true);
+      return (DataType) method.invoke(message, name);
+    } catch (Exception e) {
+      throw new IllegalStateException(LEGACY_MESSAGE_API_ERROR, e);
+    }
   }
 
   /**
@@ -101,9 +108,13 @@ public class LegacyMessageTestUtils {
    * @throws {@link ClassCastException} if the message is not a internal message.
    */
   public static <T extends Serializable> T getInboundProperty(Message message, String name) {
-    //return ((InternalMessage) message).getInboundProperty(name);
-    // TODO(pablo.kraan): API - implement this method
-    throw new UnsupportedOperationException("Not implemented yet!!!");
+    try {
+      Method method = message.getClass().getMethod("getInboundProperty", String.class);
+      method.setAccessible(true);
+      return (T) method.invoke(message, name);
+    } catch (Exception e) {
+      throw new IllegalStateException(LEGACY_MESSAGE_API_ERROR, e);
+    }
   }
 
   /**
@@ -162,9 +173,13 @@ public class LegacyMessageTestUtils {
    * @throws {@link ClassCastException} if the message is not a internal message.
    */
   public static ExceptionPayload getExceptionPayload(Message message) {
-    //return ((InternalMessage) message).getExceptionPayload();
-    // TODO(pablo.kraan): API - implement this method
-    throw new UnsupportedOperationException("Not implemented yet!!!");
+    try {
+      Method method = message.getClass().getMethod("getExceptionPayload");
+      method.setAccessible(true);
+      return (ExceptionPayload) method.invoke(message);
+    } catch (Exception e) {
+      throw new IllegalStateException(LEGACY_MESSAGE_API_ERROR, e);
+    }
   }
 
 

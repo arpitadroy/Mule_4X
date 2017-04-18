@@ -11,14 +11,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mule.runtime.api.message.Message.of;
-
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.core.api.Event;
 import org.mule.runtime.core.api.EventContext;
 import org.mule.runtime.core.api.MuleContext;
 import org.mule.runtime.core.api.client.MuleClient;
 import org.mule.runtime.core.api.construct.FlowConstruct;
-import org.mule.runtime.core.internal.message.InternalMessage;
 import org.mule.runtime.core.api.store.ObjectStoreException;
 import org.mule.runtime.core.routing.AggregationException;
 import org.mule.runtime.core.routing.EventGroup;
@@ -40,7 +38,6 @@ import org.junit.Test;
  */
 // TODO: MULE-9303
 @Ignore("MULE-9303 Review aggregator sorting using runFlow")
-// TODO(pablo.kraan): API - this test uses internal message
 public class AggregationTestCase extends AbstractIntegrationTestCase {
 
   private static final String PAYLOAD = "Long string that will be broken up into multiple messages";
@@ -60,7 +57,7 @@ public class AggregationTestCase extends AbstractIntegrationTestCase {
     assertTrue(msg.getPayload().getValue() instanceof List);
 
     List<byte[]> chunks =
-        ((List<InternalMessage>) msg.getPayload().getValue()).stream()
+        ((List<Message>) msg.getPayload().getValue()).stream()
             .map(muleMessage -> (byte[]) muleMessage.getPayload().getValue())
             .collect(toList());
     ByteArrayOutputStream baos = new ByteArrayOutputStream();

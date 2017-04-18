@@ -10,12 +10,13 @@ import static java.lang.Thread.currentThread;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
+import static org.mule.functional.junit4.LegacyMessageTestUtils.getOutboundProperty;
 import static org.mule.functional.junit4.TransactionConfigEnum.ACTION_ALWAYS_BEGIN;
 import org.mule.runtime.api.exception.MuleException;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.core.api.Event;
-import org.mule.runtime.core.internal.message.InternalMessage;
 import org.mule.runtime.core.api.processor.Processor;
+import org.mule.runtime.core.internal.message.InternalMessage;
 import org.mule.tck.testmodels.mule.TestTransactionFactory;
 import org.mule.test.AbstractIntegrationTestCase;
 
@@ -23,7 +24,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 @Ignore
-// TODO(pablo.kraan): API - this test uses internal message
+// TODO(pablo.kraan): API - this test uses internal message (need a test event builder that receives an event in the constructor
 public class FlowDefaultProcessingStrategyTestCase extends AbstractIntegrationTestCase {
 
   protected static final String PROCESSOR_THREAD = "processor-thread";
@@ -40,7 +41,7 @@ public class FlowDefaultProcessingStrategyTestCase extends AbstractIntegrationTe
     assertThat(response.getPayload().getValue().toString(), is(TEST_PAYLOAD));
     Message message = muleContext.getClient().request("test://out", RECEIVE_TIMEOUT).getRight().get();
 
-    assertThat(((InternalMessage) message).getOutboundProperty(PROCESSOR_THREAD), is(not(currentThread().getName())));
+    assertThat(getOutboundProperty(message, PROCESSOR_THREAD), is(not(currentThread().getName())));
   }
 
   @Test
@@ -48,7 +49,7 @@ public class FlowDefaultProcessingStrategyTestCase extends AbstractIntegrationTe
     flowRunner(FLOW_NAME).withPayload(TEST_PAYLOAD).run();
     Message message = muleContext.getClient().request("test://out", RECEIVE_TIMEOUT).getRight().get();
 
-    assertThat(((InternalMessage) message).getOutboundProperty(PROCESSOR_THREAD), is(not(currentThread().getName())));
+    assertThat(getOutboundProperty(message, PROCESSOR_THREAD), is(not(currentThread().getName())));
   }
 
   @Test
@@ -58,7 +59,7 @@ public class FlowDefaultProcessingStrategyTestCase extends AbstractIntegrationTe
 
     Message message = muleContext.getClient().request("test://out", RECEIVE_TIMEOUT).getRight().get();
 
-    assertThat(((InternalMessage) message).getOutboundProperty(PROCESSOR_THREAD), is(currentThread().getName()));
+    assertThat(getOutboundProperty(message, PROCESSOR_THREAD), is(currentThread().getName()));
   }
 
   @Test
@@ -68,7 +69,7 @@ public class FlowDefaultProcessingStrategyTestCase extends AbstractIntegrationTe
 
     Message message = muleContext.getClient().request("test://out", RECEIVE_TIMEOUT).getRight().get();
 
-    assertThat(((InternalMessage) message).getOutboundProperty(PROCESSOR_THREAD), is(currentThread().getName()));
+    assertThat(getOutboundProperty(message, PROCESSOR_THREAD), is(currentThread().getName()));
   }
 
   public static class ThreadSensingMessageProcessor implements Processor {

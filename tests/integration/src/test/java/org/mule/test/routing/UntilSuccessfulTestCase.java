@@ -14,12 +14,12 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mule.functional.functional.InvocationCountMessageProcessor.getNumberOfInvocationsFor;
+import static org.mule.functional.junit4.LegacyMessageTestUtils.getExceptionPayload;
 import org.mule.functional.functional.FunctionalTestComponent;
 import org.mule.runtime.api.exception.MuleException;
 import org.mule.runtime.api.exception.MuleRuntimeException;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.core.api.Event;
-import org.mule.runtime.core.internal.message.InternalMessage;
 import org.mule.runtime.core.api.processor.Processor;
 import org.mule.runtime.core.api.routing.RoutingException;
 import org.mule.runtime.core.retry.RetryPolicyExhaustedException;
@@ -36,15 +36,12 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.RandomStringUtils;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runners.Parameterized;
 
 @RunnerDelegateTo(Parameterized.class)
-@Ignore
-// TODO(pablo.kraan): API - this test uses internal message
 public class UntilSuccessfulTestCase extends AbstractIntegrationTestCase {
 
   @Rule
@@ -102,7 +99,7 @@ public class UntilSuccessfulTestCase extends AbstractIntegrationTestCase {
 
     ponderUntilMessageCountReceivedByCustomMP(1);
 
-    Throwable error = ((InternalMessage) CustomMP.getProcessedEvents().get(0).getMessage()).getExceptionPayload().getException();
+    Throwable error = getExceptionPayload(CustomMP.getProcessedEvents().get(0).getMessage()).getException();
     assertThat(error, is(notNullValue()));
     assertThat(error.getCause(), instanceOf(RetryPolicyExhaustedException.class));
     assertThat(error.getCause().getMessage(),

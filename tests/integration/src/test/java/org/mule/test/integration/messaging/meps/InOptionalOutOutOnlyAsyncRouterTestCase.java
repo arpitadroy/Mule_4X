@@ -14,11 +14,8 @@ import org.mule.runtime.api.message.Message;
 import org.mule.runtime.core.api.Event;
 import org.mule.test.AbstractIntegrationTestCase;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
-// TODO(pablo.kraan): API - this test uses internal message
 public class InOptionalOutOutOnlyAsyncRouterTestCase extends AbstractIntegrationTestCase {
 
   @Override

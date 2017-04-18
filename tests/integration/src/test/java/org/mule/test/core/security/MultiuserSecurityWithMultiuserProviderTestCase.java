@@ -6,15 +6,11 @@
  */
 package org.mule.test.core.security;
 
-import org.junit.Ignore;
-
 /**
  * Tests multi-user security against a security provider which holds authentications for multiple users concurrently.
  * 
  * see EE-979
  */
-@Ignore
-// TODO(pablo.kraan): API - this test uses internal message
 public class MultiuserSecurityWithMultiuserProviderTestCase extends MultiuserSecurityTestCase {
 
   @Override

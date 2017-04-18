@@ -9,11 +9,8 @@ package org.mule.test.integration.resolvers;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
-// TODO(pablo.kraan): API - this test uses internal message
 public class EntryPointResolverTestCase extends AbstractEntryPointResolverTestCase {
 
   @Override

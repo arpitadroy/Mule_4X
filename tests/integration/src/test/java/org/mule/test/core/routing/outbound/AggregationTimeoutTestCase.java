@@ -14,18 +14,14 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertThat;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.core.api.client.MuleClient;
-import org.mule.runtime.core.internal.message.InternalMessage;
 import org.mule.test.AbstractIntegrationTestCase;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
-// TODO(pablo.kraan): API - this test uses internal message
 public class AggregationTimeoutTestCase extends AbstractIntegrationTestCase {
 
   private static final CountDownLatch blockExecution = new CountDownLatch(1);
@@ -53,9 +49,8 @@ public class AggregationTimeoutTestCase extends AbstractIntegrationTestCase {
       Message response = client.request("test://testOut", RECEIVE_TIMEOUT).getRight().get();
       assertThat(response.getPayload().getValue(), instanceOf(List.class));
 
-      List<String> payloads =
-          ((List<InternalMessage>) response.getPayload().getValue()).stream().map(m -> (String) m.getPayload().getValue())
-              .collect(toList());
+      List<String> payloads = ((List<Message>) response.getPayload().getValue()).stream()
+          .map(m -> (String) m.getPayload().getValue()).collect(toList());
       assertThat(payloads.size(), equalTo(1));
       assertThat(payloads, hasItem(PROCESSED_EVENT));
     } finally {

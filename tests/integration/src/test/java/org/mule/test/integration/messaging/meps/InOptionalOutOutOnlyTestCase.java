@@ -14,11 +14,8 @@ import org.mule.functional.junit4.FlowRunner;
 import org.mule.runtime.api.message.Message;
 import org.mule.test.AbstractIntegrationTestCase;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
-// TODO(pablo.kraan): API - this test uses internal message
 public class InOptionalOutOutOnlyTestCase extends AbstractIntegrationTestCase {
 
   @Override

@@ -10,9 +10,9 @@ import static java.lang.String.format;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.mule.functional.junit4.LegacyMessageTestUtils.getOutboundProperty;
 import static org.mule.service.http.api.HttpConstants.Method.POST;
 import org.mule.runtime.api.message.Message;
-import org.mule.runtime.core.internal.message.InternalMessage;
 import org.mule.service.http.api.HttpService;
 import org.mule.service.http.api.domain.ParameterMap;
 import org.mule.service.http.api.domain.entity.ByteArrayHttpEntity;
@@ -21,12 +21,9 @@ import org.mule.services.http.TestHttpClient;
 import org.mule.tck.junit4.rule.DynamicPort;
 import org.mule.test.AbstractIntegrationTestCase;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
-@Ignore
-// TODO(pablo.kraan): API - this test uses internal message
 public class HttpJmsBridgeTestCase extends AbstractIntegrationTestCase {
 
   @Rule
@@ -56,6 +53,6 @@ public class HttpJmsBridgeTestCase extends AbstractIntegrationTestCase {
 
     assertNotNull(msg);
     assertThat(getPayloadAsString(msg), is(payload));
-    assertThat(((InternalMessage) msg).getOutboundProperty(customHeader), is("value"));
+    assertThat(getOutboundProperty(msg, customHeader), is("value"));
   }
 }

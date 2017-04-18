@@ -13,7 +13,6 @@ import static org.junit.Assert.assertThat;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.core.api.client.MuleClient;
 import org.mule.runtime.core.api.config.MuleProperties;
-import org.mule.runtime.core.internal.message.InternalMessage;
 import org.mule.runtime.core.api.serialization.SerializationException;
 import org.mule.runtime.core.api.store.ObjectStoreException;
 import org.mule.runtime.core.routing.EventGroup;
@@ -25,11 +24,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.SerializationUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
-// TODO(pablo.kraan): API - this test uses internal message
 public class CollectionAggregatorRouterSerializationTestCase extends AbstractIntegrationTestCase {
 
   @Override
@@ -48,7 +44,7 @@ public class CollectionAggregatorRouterSerializationTestCase extends AbstractInt
     Message request = client.request("test://out", RECEIVE_TIMEOUT).getRight().get();
     assertNotNull(request);
     assertThat(request.getPayload().getValue(), instanceOf(List.class));
-    assertThat(((List<InternalMessage>) request.getPayload().getValue()), hasSize(list.size()));
+    assertThat(((List<Message>) request.getPayload().getValue()), hasSize(list.size()));
   }
 
   private class EventGroupSerializerObjectStore<T extends Serializable> extends SimpleMemoryObjectStore<Serializable> {
