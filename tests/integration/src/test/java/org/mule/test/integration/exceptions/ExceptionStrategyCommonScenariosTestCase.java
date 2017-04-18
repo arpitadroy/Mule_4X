@@ -10,9 +10,8 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-
+import org.mule.runtime.api.message.Message;
 import org.mule.runtime.core.api.Event;
-import org.mule.runtime.core.internal.message.InternalMessage;
 import org.mule.runtime.core.component.ComponentException;
 import org.mule.runtime.core.exception.AbstractMessagingExceptionStrategy;
 import org.mule.runtime.core.exception.MessagingException;
@@ -20,12 +19,9 @@ import org.mule.tck.junit4.rule.DynamicPort;
 import org.mule.test.AbstractIntegrationTestCase;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
-@Ignore
-// TODO(pablo.kraan): API - this test uses internal message
 public class ExceptionStrategyCommonScenariosTestCase extends AbstractIntegrationTestCase {
 
   public static final String MESSAGE_TO_SEND = "A message";
@@ -78,8 +74,7 @@ public class ExceptionStrategyCommonScenariosTestCase extends AbstractIntegratio
     @Override
     public Event handleException(MessagingException e, Event event) {
       return Event.builder(super.handleException(e, event))
-          .message(InternalMessage.builder(event.getMessage()).payload(event.getMessage().getPayload().getValue()).build())
-          .build();
+          .message(Message.builder(event.getMessage()).payload(event.getMessage().getPayload().getValue()).build()).build();
     }
   }
 }
