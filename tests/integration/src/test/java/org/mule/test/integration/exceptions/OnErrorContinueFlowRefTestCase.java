@@ -22,11 +22,8 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsNull;
-import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
-// TODO(pablo.kraan): API - this test uses internal message
 public class OnErrorContinueFlowRefTestCase extends AbstractIntegrationTestCase {
 
   public static final int TIMEOUT = 5000;

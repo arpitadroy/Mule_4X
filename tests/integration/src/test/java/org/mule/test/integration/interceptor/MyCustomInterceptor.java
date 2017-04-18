@@ -7,20 +7,17 @@
 package org.mule.test.integration.interceptor;
 
 import org.mule.runtime.api.exception.MuleException;
+import org.mule.runtime.api.message.Message;
 import org.mule.runtime.core.api.Event;
 import org.mule.runtime.core.api.interceptor.Interceptor;
-import org.mule.runtime.core.internal.message.InternalMessage;
 import org.mule.runtime.core.processor.AbstractInterceptingMessageProcessor;
 
-// TODO(pablo.kraan): API - review usages of this class as it won' work because it references internal message
 public class MyCustomInterceptor extends AbstractInterceptingMessageProcessor implements Interceptor {
 
   @Override
   public Event process(Event event) throws MuleException {
     return processNext(Event.builder(event)
-        .message(InternalMessage.builder(event.getMessage()).payload((String) event.getMessage().getPayload().getValue() + "!")
-            .build())
-        .build());
+        .message(Message.builder(event.getMessage()).payload(event.getMessage().getPayload().getValue() + "!").build()).build());
   }
 
 }

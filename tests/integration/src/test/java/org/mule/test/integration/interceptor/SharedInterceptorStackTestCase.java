@@ -7,20 +7,15 @@
 package org.mule.test.integration.interceptor;
 
 import static org.junit.Assert.assertEquals;
-
 import org.mule.runtime.api.exception.MuleException;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.core.api.Event;
 import org.mule.runtime.core.api.interceptor.Interceptor;
-import org.mule.runtime.core.internal.message.InternalMessage;
 import org.mule.runtime.core.processor.AbstractInterceptingMessageProcessor;
 import org.mule.test.AbstractIntegrationTestCase;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
-// TODO(pablo.kraan): API - this test uses internal message
 public class SharedInterceptorStackTestCase extends AbstractIntegrationTestCase {
 
   @Override
@@ -44,7 +39,7 @@ public class SharedInterceptorStackTestCase extends AbstractIntegrationTestCase 
 
     @Override
     public Event process(Event event) throws MuleException {
-      return processNext(Event.builder(event).message(InternalMessage.builder(event.getMessage())
+      return processNext(Event.builder(event).message(Message.builder(event.getMessage())
           .payload(event.getMessage().getPayload().getValue().toString() + " CustomInterceptor").build()).build());
     }
   }
