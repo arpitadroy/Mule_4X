@@ -7,7 +7,7 @@
 
 package org.mule.functional.junit4;
 
-import static org.mule.functional.junit4.LegacyMessageTestUtils.LEGACY_MESSAGE_API_ERROR;
+import static org.mule.functional.junit4.TestLegacyMessageUtils.LEGACY_MESSAGE_API_ERROR;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.metadata.MediaType;
 
