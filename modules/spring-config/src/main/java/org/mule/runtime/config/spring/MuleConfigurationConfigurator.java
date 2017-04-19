@@ -19,7 +19,6 @@ import org.mule.runtime.core.api.context.MuleContextAware;
 import org.mule.runtime.core.api.exception.MessagingExceptionHandler;
 import org.mule.runtime.core.api.exception.MessagingExceptionHandlerAcceptor;
 import org.mule.runtime.core.api.processor.strategy.ProcessingStrategyFactory;
-import org.mule.runtime.core.api.serialization.JavaObjectSerializer;
 import org.mule.runtime.core.api.serialization.ObjectSerializer;
 import org.mule.runtime.core.config.DefaultMuleConfiguration;
 import org.mule.runtime.core.config.i18n.CoreMessages;
@@ -98,13 +97,12 @@ public class MuleConfigurationConfigurator extends AbstractAnnotatedObjectFactor
     // TODO(pablo.kraan): API - is OK to configure a JavaObjectSerializer? I think the serializer should be always set on the context
     if (configuredSerializer == null) {
       if (muleContext.getObjectSerializer() == null) {
-        configuredSerializer = new JavaObjectSerializer();
-        ((MuleContextAware) configuredSerializer).setMuleContext(muleContext);
+        //configuredSerializer = new JavaObjectSerializer();
+        //((MuleContextAware) configuredSerializer).setMuleContext(muleContext);
+        throw new IllegalStateException("bummmmm!!");
       } else {
-        configuredSerializer = muleContext.getObjectSerializer();
+        return;
       }
-
-      config.setDefaultObjectSerializer(configuredSerializer);
     }
 
     configuration.setDefaultObjectSerializer(configuredSerializer);
