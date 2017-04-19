@@ -277,8 +277,11 @@ public abstract class AbstractMuleTestCase {
     int filteredThreads = 0;
     StringBuilder builder = new StringBuilder();
     for (String threadName : currentThreads) {
-      if (!nameIn(threadName, "SchedulerService", "Finalizer", "Monitor Ctrl-Break", "Reference Handler", "Signal Dispatcher",
+      if (!nameIn(threadName, "Finalizer", "Monitor Ctrl-Break", "Reference Handler", "Signal Dispatcher",
                   "main")) {
+        // if (!nameIn(threadName, "SchedulerService", "Finalizer", "Monitor Ctrl-Break", "Reference Handler", "Signal
+        // Dispatcher",
+        // "main")) {
         builder.append("\n-> ").append(threadName);
         filteredThreads++;
       }

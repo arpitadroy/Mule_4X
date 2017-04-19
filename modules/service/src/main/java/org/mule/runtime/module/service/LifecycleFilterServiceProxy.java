@@ -7,16 +7,17 @@
 
 package org.mule.runtime.module.service;
 
-import static org.mule.runtime.core.util.ClassUtils.findImplementedInterfaces;
+import static java.lang.reflect.Proxy.newProxyInstance;
 import static org.mule.runtime.api.util.Preconditions.checkArgument;
-import org.mule.runtime.api.service.Service;
+import static org.mule.runtime.core.util.ClassUtils.findImplementedInterfaces;
+
 import org.mule.runtime.api.lifecycle.Startable;
 import org.mule.runtime.api.lifecycle.Stoppable;
+import org.mule.runtime.api.service.Service;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 
 /**
  * Proxies a {@link Service} instance to filter invocations of lifecycle methods from {@link Startable} and {@link Stoppable}
@@ -57,11 +58,11 @@ public class LifecycleFilterServiceProxy implements InvocationHandler {
    * @param service service to wrap. Non null.
    * @return a new proxy instance.
    */
-  public static Service createServiceProxy(Service service) {
+  public static Service createLifecycleFilterServiceProxy(Service service) {
     checkArgument(service != null, "service cannot be null");
     InvocationHandler handler = new LifecycleFilterServiceProxy(service);
 
-    return (Service) Proxy.newProxyInstance(service.getClass().getClassLoader(), findImplementedInterfaces(service.getClass()),
-                                            handler);
+    return (Service) newProxyInstance(service.getClass().getClassLoader(), findImplementedInterfaces(service.getClass()),
+                                      handler);
   }
 }
