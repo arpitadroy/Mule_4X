@@ -32,6 +32,7 @@ import org.mule.runtime.api.meta.model.declaration.fluent.ParameterizedDeclarer;
 import org.mule.runtime.api.meta.model.display.LayoutModel;
 import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.RestrictedTo;
+import org.mule.runtime.extension.api.annotation.connectivity.oauth.OAuthParameter;
 import org.mule.runtime.extension.api.annotation.dsl.xml.XmlHints;
 import org.mule.runtime.extension.api.annotation.metadata.MetadataKeyId;
 import org.mule.runtime.extension.api.annotation.param.Connection;
@@ -50,6 +51,7 @@ import org.mule.runtime.module.extension.internal.loader.java.property.Declaring
 import org.mule.runtime.module.extension.internal.loader.java.property.DefaultEncodingModelProperty;
 import org.mule.runtime.module.extension.internal.loader.java.property.ImplementingParameterModelProperty;
 import org.mule.runtime.module.extension.internal.loader.java.property.NullSafeModelProperty;
+import org.mule.runtime.module.extension.internal.loader.java.property.oauth.OAuthParameterModelProperty;
 import org.mule.runtime.module.extension.internal.loader.java.property.ParameterGroupModelProperty;
 import org.mule.runtime.module.extension.internal.loader.java.property.TypeRestrictionModelProperty;
 import org.mule.runtime.module.extension.internal.loader.java.type.ExtensionParameter;
@@ -117,6 +119,7 @@ public final class ParameterModelsLoaderDelegate {
       parseDefaultEncoding(extensionParameter, parameter);
       addTypeRestrictions(extensionParameter, parameter);
       parseLayout(extensionParameter, parameter);
+      parseOAuthParameter(extensionParameter, parameter);
       addImplementingTypeModelProperty(extensionParameter, parameter);
       parseXmlHints(extensionParameter, parameter);
       contributors.forEach(contributor -> contributor.contribute(extensionParameter, parameter, declarationContext));
@@ -310,6 +313,12 @@ public final class ParameterModelsLoaderDelegate {
   private void parseLayout(ExtensionParameter extensionParameter, ParameterDeclarer parameter) {
     MuleExtensionAnnotationParser.parseLayoutAnnotations(extensionParameter, LayoutModel.builder())
         .ifPresent(parameter::withLayout);
+  }
+
+  private void parseOAuthParameter(ExtensionParameter extensionParameter, ParameterDeclarer parameter) {
+    extensionParameter.getAnnotation(OAuthParameter.class).ifPresent(oauth ->
+      parameter.withModelProperty(new OAuthParameterModelProperty(oauth.requestAlias()))
+    );
   }
 
   private void parseXmlHints(ExtensionParameter extensionParameter, ParameterDeclarer parameter) {
